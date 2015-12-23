@@ -1,2 +1,2 @@
 # digitalClock
-yea
+ OPP javascript experimental project
