@@ -11,13 +11,24 @@ function createClock(id){
   var c = new Object();
   //Make the clock tick 
     c.updateClock = function(){
+      console.log(this);
       var date = new Date(); // This is invoquin the Date object construct by using 'new'
+      
       var clock = document.getElementById(id);
-      clock.innerHTML = formatDigits(date.getHours()) + ':' + 
-      formatDigits(date.getMinutes()) +':'+ formatDigits(date.getSeconds());
+      clock.innerHTML = this.formatDigits(date.getHours()) + ':' + 
+      this.formatDigits(date.getMinutes()) +':'+ this.formatDigits(date.getSeconds());
     };
+
+    c.formatDigits = function(val){
+      if(val < 10){
+         val = '0' + val;
+      }
+      return val;
+    };
+
+    
   c.updateClock();
-  setInterval(c.updateClock, 1000);
+  setInterval(function(){c.updateClock();}, 1000);
 
   return c;
 }
@@ -30,6 +41,9 @@ function formatDigits(val){
   return val;
 }
 
-var yea = '2015';
-
 window.onload = onReady();
+
+
+//how do we call a method that belong to the same object. By using this.method
+//setInterval, first argument should be a function not a method, 
+//because it will not know the context of the method ( scope )  setInterval(function(){c.updateClock();}, 1000);
