@@ -8,28 +8,14 @@ function onReady(){
 }       
 
 function Clock(id, offset, labe){
-  offset = offset || 0;
-  labe   = labe   || '';
+  offset  = offset || 0;
+  labe    = labe   || '';
+  this.id = id;
+  this.labe = labe;
   
   var d = new Date();
   this.offset =(d.getTimezoneOffset() + offset) * 60 * 1000;
 
-  //Make the clock tick 
-    this.updateClock = function(){
-      console.log(this);
-      var date = new Date(); // This is invoquin the Date object construct by using 'new'
-          date = new Date(this.offset + date.getTime());
-      var clock = document.getElementById(id);
-      clock.innerHTML = this.formatDigits(date.getHours()) + ':' + 
-      this.formatDigits(date.getMinutes()) +':'+ this.formatDigits(date.getSeconds() +' '+ labe);
-    };
-
-    this.formatDigits = function(val){
-      if(val < 10){
-         val = '0' + val;
-      }
-      return val;
-    };
 
   var that = this;
   this.updateClock();
@@ -37,6 +23,25 @@ function Clock(id, offset, labe){
     that.updateClock();}, 1000);
 
 }
+
+
+  //Make the clock tick 
+    Clock.prototype.updateClock = function(){
+      console.log(this);
+      var date = new Date(); // This is invoquin the Date object construct by using 'new'
+          date = new Date(this.offset + date.getTime());
+      var clock = document.getElementById(this.id);
+      clock.innerHTML = this.formatDigits(date.getHours()) + ':' + 
+      this.formatDigits(date.getMinutes()) +':'+ this.formatDigits(date.getSeconds() +' '+ this.labe);
+    };
+
+    Clock.prototype.formatDigits = function(val){
+      if(val < 10){
+         val = '0' + val;
+      }
+      return val;
+    };
+
 
 //add a 0 if the value is smaller than 9 
 function formatDigits(val){
