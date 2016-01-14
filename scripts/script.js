@@ -3,9 +3,13 @@ function onReady(){
   
   var clock   = new Clock('clock',0 , 'UTC');
   var clock2  = new Clock('clock2', -360, 'Nashville');
-
+  var clock3  = new Clock('clock3', -240, 'Santo Domingo');
 
 }       
+
+Date.prototype.updateSeconds = function(){
+  this.setSeconds(this.getSeconds()+1);
+};
 
 function Clock(id, offset, labe){
   offset  = offset || 0;
@@ -14,8 +18,8 @@ function Clock(id, offset, labe){
   this.labe = labe;
   
   var d = new Date();
-  this.offset =(d.getTimezoneOffset() + offset) * 60 * 1000;
-
+  var offset =(offset + d.getTimezoneOffset()) * 60 * 1000;
+  this.d = new Date(offset + d.getTime());
 
   var that = this;
   this.updateClock();
@@ -28,8 +32,8 @@ function Clock(id, offset, labe){
   //Make the clock tick 
     Clock.prototype.updateClock = function(){
       console.log(this);
-      var date = new Date(); // This is invoquin the Date object construct by using 'new'
-          date = new Date(this.offset + date.getTime());
+      var date = this.d; // This is invoquin the Date object construct by using 'new'
+          date.updateSeconds(); // date = new Date(this.offset + date.getTime());
       var clock = document.getElementById(this.id);
       clock.innerHTML = this.formatDigits(date.getHours()) + ':' + 
       this.formatDigits(date.getMinutes()) +':'+ this.formatDigits(date.getSeconds() +' '+ this.labe);
@@ -64,3 +68,5 @@ window.onload = onReady();
 
 // function yes(o){ var p = o || 0;   return p; } 
 // yes(34); // 34       //yes();   // 0 
+
+// video 3_2 sec 3:10
