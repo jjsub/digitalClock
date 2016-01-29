@@ -1,11 +1,16 @@
 body {
   background: none repeat scroll 0 0 #dedede;
-  font-family: 'Russo One', sans-serif;
+  background: #089de3;
+  /*font-family: 'Russo One', sans-serif;*/
+  font-family: 'Montserrat', sans-serif;
   margin: 0;
   padding: 0;
+
 }
 
 #content{
+  /*width: 100%;*/
+  color: white;
   position: fixed;
   top:50%;
   left: 50%;
@@ -14,5 +19,5 @@ body {
 }
 
 #clock{
-  font-size: 100px;
+  font-size: 85px;
 }

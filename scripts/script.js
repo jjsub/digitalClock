@@ -7,19 +7,34 @@ function onReady(){
 
 }       
 
+
 Date.prototype.updateSeconds = function(){
   this.setSeconds(this.getSeconds()+1);
 };
 
+//will make the clock to auto refresh 
+Date.prototype.autoClock = function(isAuto){
+    clearInterval(this.clockInterval);
+
+    if(isAuto){
+      var that = this;
+      this.clockInterval = setInterval(function(){ that.updateSeconds() }
+        , 1000);
+    }
+};
+
+
 function Clock(id, offset, labe){
-  offset  = offset || 0;
-  labe    = labe   || '';
-  this.id = id;
-  this.labe = labe;
-  
-  var d = new Date();
-  var offset =(offset + d.getTimezoneOffset()) * 60 * 1000;
-  this.d = new Date(offset + d.getTime());
+    offset    = offset || 0;
+    labe      = labe   || '';
+   
+    var d      = new Date();
+    var offset =(offset + d.getTimezoneOffset()) * 60 * 1000;
+    this.d     = new Date(offset + d.getTime());
+    this.d.autoClock(true);
+    this.id   = id;
+    this.labe = labe;
+
 
   var that = this;
   this.updateClock();
@@ -28,21 +43,19 @@ function Clock(id, offset, labe){
 
 }
 
-
   //Make the clock tick 
     Clock.prototype.updateClock = function(){
       console.log(this);
       var date = this.d; // This is invoquin the Date object construct by using 'new'
-          date.updateSeconds(); // date = new Date(this.offset + date.getTime());
+          // date.updateSeconds(); // date = new Date(this.offset + date.getTime());
       var clock = document.getElementById(this.id);
       clock.innerHTML = this.formatDigits(date.getHours()) + ':' + 
       this.formatDigits(date.getMinutes()) +':'+ this.formatDigits(date.getSeconds() +' '+ this.labe);
     };
 
     Clock.prototype.formatDigits = function(val){
-      if(val < 10){
-         val = '0' + val;
-      }
+      if(val < 10) val = '0' + val;
+      
       return val;
     };
 
