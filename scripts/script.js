@@ -4,9 +4,24 @@ function onReady(){
   var clock   = new Clock('clock',0 , 'UTC');
   var clock2  = new Clock('clock2', -360, 'Nashville');
   var clock3  = new Clock('clock3', -240, 'Santo Domingo');
-
 }       
 
+Date.__interval   = 0;
+Date.__arrayDates = [];
+
+Date.addToInterval = function(date){
+  console.info(date);
+    this.__arrayDates.push(date);
+    if(!Date.__interval){
+         Date.__interval = setInterval(function(){Date.updateDates()}, 1000);
+    }
+};
+
+Date.updateDates = function(){
+  for (var i = 0; i < this.__arrayDates.length; i++) {
+        this.__arrayDates[i].updateSeconds();
+  }
+};
 
 Date.prototype.updateSeconds = function(){
   this.setSeconds(this.getSeconds()+1);
@@ -14,15 +29,15 @@ Date.prototype.updateSeconds = function(){
 
 //will make the clock to auto refresh 
 Date.prototype.autoClock = function(isAuto){
-    clearInterval(this.clockInterval);
+    // clearInterval(this.clockInterval);
 
     if(isAuto){
-      var that = this;
-      this.clockInterval = setInterval(function(){ that.updateSeconds() }
-        , 1000);
+      // var that = this;
+      // this.clockInterval = setInterval(function(){ that.updateSeconds()}
+      //   , 1000);
+      Date.addToInterval(this);
     }
 };
-
 
 function Clock(id, offset, labe){
     offset    = offset || 0;
@@ -43,8 +58,9 @@ function Clock(id, offset, labe){
 
 }
 
+
   //Make the clock tick 
-    Clock.prototype.updateClock = function(){
+Clock.prototype.updateClock = function(){
       console.log(this);
       var date = this.d; // This is invoquin the Date object construct by using 'new'
           // date.updateSeconds(); // date = new Date(this.offset + date.getTime());
@@ -54,8 +70,9 @@ function Clock(id, offset, labe){
     };
 
     Clock.prototype.formatDigits = function(val){
-      if(val < 10) val = '0' + val;
-      
+      if(val < 10){
+         val = '0' + val;
+      }
       return val;
     };
 
@@ -82,4 +99,4 @@ window.onload = onReady();
 // function yes(o){ var p = o || 0;   return p; } 
 // yes(34); // 34       //yes();   // 0 
 
-// video 3_2 sec 3:10
+// video 3_3 sec 2:10
