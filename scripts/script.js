@@ -44,7 +44,7 @@ function Clock(id, offset, labe){
     labe      = labe   || '';
    
     var d      = new Date();
-    var offset =(offset + d.getTimezoneOffset()) * 60 * 1000;
+    var offset = (offset + d.getTimezoneOffset()) * 60 * 1000;
     this.d     = new Date(offset + d.getTime());
     this.d.autoClock(true);
     this.id   = id;
@@ -53,20 +53,22 @@ function Clock(id, offset, labe){
 
   var that = this;
   this.updateClock();
-  setInterval(function(){
+  setInterval(function(){ 
     that.updateClock();}, 1000);
 
 }
 
+Clock.prototype.version = '1.00';
 
   //Make the clock tick 
 Clock.prototype.updateClock = function(){
       console.log(this);
+      console.log(this.version);
       var date = this.d; // This is invoquin the Date object construct by using 'new'
           // date.updateSeconds(); // date = new Date(this.offset + date.getTime());
       var clock = document.getElementById(this.id);
-      clock.innerHTML = this.formatDigits(date.getHours()) + ':' + 
-      this.formatDigits(date.getMinutes()) +':'+ this.formatDigits(date.getSeconds() +' '+ this.labe);
+      clock.innerHTML = this.formatDigits(date.getHours()) + ':' + this.formatDigits(date.getMinutes()) +':'
+      + this.formatDigits(date.getSeconds()) + ' '+ this.labe ;
     };
 
     Clock.prototype.formatDigits = function(val){
